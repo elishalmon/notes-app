@@ -1,0 +1,3 @@
+[submodule "react-notes-app"]
+	path = react-notes-app
+	url = https://github.com/elishalmon/react-notes-app.git
