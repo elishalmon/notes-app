@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -19,6 +22,7 @@ import lombok.ToString;
 @Data
 @Table(name = "users")
 @NoArgsConstructor
+@JsonIgnoreProperties(value={ "password", "notes" }, allowSetters= true)
 public class User {
 	
 	@Id
@@ -27,6 +31,7 @@ public class User {
 	
 	private String email;
 	private String name;
+	
 	private String password;
 	
 	@OneToMany(

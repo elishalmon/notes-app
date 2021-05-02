@@ -45,4 +45,25 @@ public class UserService {
 		}
 		return list;
 	}
+	
+	public User getUser(int id) throws Exception {
+		Optional<User> u = repo.findById(id);
+		if(u.isEmpty()) { // user not found
+			throw new Exception();
+		}
+		return u.get();
+	}
+	
+	public User findByName(String name) {
+		Optional<User> op = this.repo.findByName(name);
+		return op.get();
+	}
+	
+	public User findByEmailAndPassword(String email, String password) throws Exception {
+		Optional<User> op = this.repo.findByEmailAndPassword(email, password);
+		if(op.isEmpty()) {
+			throw new Exception("User not exist");
+		}
+		return op.get();
+	}
 }

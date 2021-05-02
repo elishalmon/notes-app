@@ -2,9 +2,6 @@ package com.es.notesApplication.controllers;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
-import org.apache.coyote.http11.Http11AprProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +47,24 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@CrossOrigin
+	@GetMapping("getByName")
+	public ResponseEntity<?> getByName(@RequestParam String name){
+		User user= this.service.findByName(name);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@GetMapping("getUserLogin")
+	public ResponseEntity<?> getUserLogin(@RequestParam String email, String password){
+		User user;
+		try {
+			user = this.service.findByEmailAndPassword(email, password);
+		} catch (Exception e) {
+			return new ResponseEntity<Exception>(e, HttpStatus.FORBIDDEN);
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

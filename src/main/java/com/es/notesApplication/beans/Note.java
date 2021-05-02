@@ -25,16 +25,22 @@ public class Note {
 	private String title;
 	private String body;
 	private String color;
+	private boolean isRead;
+	private int priority;
+	private String icon;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"notes", "password"})
 	private User user;
 
-	public Note(String title, String body, String color, User user) {
+	public Note(int id, String title, String body, String color, boolean isRead, int priority, User user) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.color = color;
+		this.isRead = isRead;
+		this.priority = priority;
 		this.user = user;
 	}
 }
