@@ -27,7 +27,7 @@ public class NotesController {
 	
 	@CrossOrigin
 	@PostMapping("addNote")
-	public ResponseEntity<?> addNote(@RequestBody Note note) {
+	public ResponseEntity<Note> addNote(@RequestBody Note note) {
 		note = this.service.addNote(note);
 		return new ResponseEntity<Note>(note, HttpStatus.CREATED);
 	}

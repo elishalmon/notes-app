@@ -1,6 +1,7 @@
 package com.es.notesApplication.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,14 +58,13 @@ public class UserController {
 	}
 	
 	@CrossOrigin
-	@GetMapping("getUserLogin")
-	public ResponseEntity<?> getUserLogin(@RequestParam String email, String password){
-		User user;
+	@PostMapping("getUserLogin")
+	public ResponseEntity<?> getUserLogin(@RequestBody Map<String, String> details){
 		try {
-			user = this.service.findByEmailAndPassword(email, password);
+			User user = this.service.findByEmailAndPassword(details.get("email"), details.get("password"));
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Exception>(e, HttpStatus.FORBIDDEN);
 		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }
