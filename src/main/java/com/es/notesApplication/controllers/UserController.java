@@ -1,5 +1,6 @@
 package com.es.notesApplication.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class UserController {
 			List<Note> list = this.service.getNotes(id);
 			return new ResponseEntity<List<Note>>(list, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<Note>>(new ArrayList<Note>(), HttpStatus.NOT_FOUND);
 		}
 	}
 	

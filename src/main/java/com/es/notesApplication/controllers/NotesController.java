@@ -1,5 +1,7 @@
 package com.es.notesApplication.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,14 @@ public class NotesController {
 	
 	@CrossOrigin
 	@PostMapping("addNote")
-	public ResponseEntity<Note> addNote(@RequestBody Note note) {
-		note = this.service.addNote(note);
-		return new ResponseEntity<Note>(note, HttpStatus.CREATED);
+	public ResponseEntity<?> addNote(@RequestBody Note note) {
+		List<Note> list;
+		try {
+			list = service.addNote(note);
+			return new ResponseEntity<List<Note>>(list, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@CrossOrigin
@@ -47,8 +54,8 @@ public class NotesController {
 	@DeleteMapping("deleteNote/{id}")
 	public ResponseEntity<?> deleteNote(@PathVariable int id) {
 		try {
-			this.service.deleteNote(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			List<Note> list = this.service.deleteNote(id);
+			return new ResponseEntity<List<Note>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
 		}
@@ -56,10 +63,44 @@ public class NotesController {
 	
 	@CrossOrigin
 	@PutMapping("updateNote")
+	public ResponseEntity<?> updateNote(@RequestBody Note note) {
+		try {
+			List<Note> list = this.service.updateNote(note);
+			return new ResponseEntity<List<Note>>(list, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	/*
+	 
+	@CrossOrigin
+	@PostMapping("addNote")
+	public ResponseEntity<Note> addNote(@RequestBody Note note) {
+		note = this.service.addNote(note);
+		return new ResponseEntity<Note>(note, HttpStatus.CREATED);
+	}
+	 
+	@CrossOrigin
+	@DeleteMapping("deleteNote/{id}")
+	public ResponseEntity<?> deleteNote(@PathVariable int id) {
+		try {
+			this.service.deleteNote(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	@CrossOrigin
+	@PutMapping("updateNote")
 	public ResponseEntity<Note> updateNote(@RequestBody Note note) {
 		note = this.service.updateNote(note);
 		return new ResponseEntity<Note>(note, HttpStatus.OK);
 	}
-	
+	*/
 	
 }

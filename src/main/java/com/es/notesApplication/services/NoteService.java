@@ -21,8 +21,10 @@ public class NoteService {
 		@Autowired
 		UserRepository userRepo;
 		
-		public Note addNote(Note note) {
-			return this.repo.save(note);
+		public List<Note> addNote(Note note) throws Exception {
+			repo.save(note);
+			List<Note> list = getNotesByUserId(note.getUser().getId());
+			return list;
 		}
 		
 		public List<Note> getNotes() {
@@ -50,14 +52,30 @@ public class NoteService {
 			return list;
 		}
 		
-		public void deleteNote(int id) throws Exception {
+		public List<Note> deleteNote(int id) throws Exception {
 			Note note = this.getNote(id);
 			User user = note.getUser();
 			user.removeNote(note);
 			userRepo.save(user);
+			List<Note> list = getNotesByUserId(user.getId());
+			return list;
 		}
 		
-		public Note updateNote(Note note) {
+		
+		public List<Note> updateNote(Note note) throws Exception {
+			repo.save(note);
+			List<Note> list = getNotesByUserId(note.getUser().getId());
+			return list;
+		}
+		
+		/*
+		 
+		 public Note addNote(Note note) {
 			return this.repo.save(note);
 		}
+		  
+		  
+		 * public Note updateNote(Note note) {
+			return this.repo.save(note);
+		}*/
 }
