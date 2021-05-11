@@ -40,9 +40,6 @@ public class UserService {
 	public List<Note> getNotes(int id) throws Exception {
 		User user = this.getUserById(id);
 		List<Note> list =  user.getNotes();
-		if(list.size() == 0) {
-			throw new Exception("User with id " + id + " does not have notes yet");
-		}
 		return list;
 	}
 	
