@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.es.notesApplication.beans.Note;
 import com.es.notesApplication.beans.User;
+import com.es.notesApplication.jwt.JwtService;
 import com.es.notesApplication.services.UserService;
 
 @RestController
@@ -37,13 +39,13 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<Exception>(e, HttpStatus.FORBIDDEN);
 		}
-		
 	}
 	
 	@CrossOrigin
 	@GetMapping("getNotes")
-	public ResponseEntity<?> getNotes(@RequestParam int id) {
+	public ResponseEntity<?> getNotes(@RequestParam int id, @RequestHeader(value = "Authorization", required = false) String auth) {
 		try {
+			JwtService.decodeJWT(auth);
 			List<Note> list = this.service.getNotes(id);
 			return new ResponseEntity<List<Note>>(list, HttpStatus.OK);
 		} catch (Exception e) {
@@ -62,8 +64,8 @@ public class UserController {
 	@PostMapping("getUserLogin")
 	public ResponseEntity<?> getUserLogin(@RequestBody Map<String, String> details){
 		try {
-			User user = this.service.findByEmailAndPassword(details.get("email"), details.get("password"));
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			Map<String, String> response = service.findByEmailAndPassword(details.get("email"), details.get("password"));
+			return new ResponseEntity<Map<String,String>>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Exception>(e, HttpStatus.FORBIDDEN);
 		}

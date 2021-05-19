@@ -1,6 +1,8 @@
 package com.es.notesApplication.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.es.notesApplication.beans.Note;
 import com.es.notesApplication.beans.User;
+import com.es.notesApplication.jwt.JwtService;
 import com.es.notesApplication.repositories.UserRepository;
 
 @Service
@@ -56,11 +59,27 @@ public class UserService {
 		return op.get();
 	}
 	
+	public Map<String, String> findByEmailAndPassword(String email, String password) throws Exception {
+		Optional<User> op = this.repo.findByEmailAndPassword(email, password);
+		if(op.isEmpty()) {
+			throw new Exception("User not exist");
+		}
+		User user = op.get();
+		String token = JwtService.createJwt(user);
+		Map<String, String> response = new HashMap<String, String>();
+		response.put("token", token);
+		response.put("id", String.valueOf(user.getId()));
+		response.put("email", user.getEmail());
+		response.put("name", user.getName());
+		return response;
+	}
+	
+	/*
 	public User findByEmailAndPassword(String email, String password) throws Exception {
 		Optional<User> op = this.repo.findByEmailAndPassword(email, password);
 		if(op.isEmpty()) {
 			throw new Exception("User not exist");
 		}
 		return op.get();
-	}
+	}*/
 }
