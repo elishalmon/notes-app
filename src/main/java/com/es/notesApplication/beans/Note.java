@@ -6,10 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,14 +27,26 @@ public class Note {
 	@GeneratedValue
 	private int id;
 	
+	@NotBlank(message = "Title is mandatory")
 	private String title;
 	
+	@NotBlank(message = "Body is mandatory")
 	private String body;
+	
+	@NotBlank(message = "Color is mandatory")
 	private String color;
+	
+	@NotNull(message = "isRead is mandatory")
 	private boolean isRead;
+	
+	@Min(value = 1, message = "Priority should be between 1 to 5")
+    @Max(value = 5, message = "Priority should be between 1 to 5")
 	private int priority;
+	
+	@NotBlank(message = "Icon is mandatory")
 	private String icon;
 	
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"notes", "password"})
 	private User user;
