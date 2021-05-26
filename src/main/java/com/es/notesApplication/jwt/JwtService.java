@@ -58,6 +58,6 @@ public class JwtService {
 			throw new Exception("Token is invalid");
 		}
 		
-		return Integer.parseInt((String) claimId) ;
+		return Integer.parseInt((String) claimId);
 	}
 }

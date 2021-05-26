@@ -54,10 +54,6 @@ public class UserService {
 		return u.get();
 	}
 	
-	public User findByName(String name) {
-		Optional<User> op = this.repo.findByName(name);
-		return op.get();
-	}
 	
 	public Map<String, String> findByEmailAndPassword(String email, String password) throws Exception {
 		Optional<User> op = this.repo.findByEmailAndPassword(email, password);
@@ -73,13 +69,4 @@ public class UserService {
 		response.put("name", user.getName());
 		return response;
 	}
-	
-	/*
-	public User findByEmailAndPassword(String email, String password) throws Exception {
-		Optional<User> op = this.repo.findByEmailAndPassword(email, password);
-		if(op.isEmpty()) {
-			throw new Exception("User not exist");
-		}
-		return op.get();
-	}*/
 }

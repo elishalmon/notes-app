@@ -1,6 +1,5 @@
 package com.es.notesApplication.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -49,15 +47,9 @@ public class UserController {
 			List<Note> list = this.service.getNotes(id);
 			return new ResponseEntity<List<Note>>(list, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<Note>>(new ArrayList<Note>(), HttpStatus.NOT_FOUND);
+			System.out.println("get notes exception");
+			return new ResponseEntity<Exception>(e, HttpStatus.BAD_REQUEST);
 		}
-	}
-	
-	@CrossOrigin
-	@GetMapping("getByName")
-	public ResponseEntity<?> getByName(@RequestParam String name){
-		User user= this.service.findByName(name);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@CrossOrigin

@@ -38,7 +38,6 @@ public class NotesController {
 	@PostMapping("addNote")
 	public ResponseEntity<?> addNote(@Valid @RequestBody Note note, @RequestHeader(value = "Authorization", required = false) String auth) {
 		try {
-			
 			JwtService.decodeJWT(auth);
 			Note newNote = service.addNote(note);
 			return new ResponseEntity<Note>(newNote, HttpStatus.CREATED);
@@ -68,7 +67,7 @@ public class NotesController {
 			return new ResponseEntity<Note>(updatedNote, HttpStatus.OK);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Exception>(e, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Exception>(e, HttpStatus.BAD_REQUEST); 
 		}
 	}
 	
@@ -81,6 +80,7 @@ public class NotesController {
 			String errorMessage = error.getDefaultMessage();
 			errors.put(fieldName, errorMessage);
 		});
+		System.out.println(errors);
 		return errors;
 	}
 }

@@ -9,6 +9,5 @@ import com.es.notesApplication.beans.User;
 
 public interface UserRepository extends CrudRepository<User, Integer>{
 	public List<User> findByEmail(String email);
-	public Optional<User> findByName(String name);
 	public Optional<User> findByEmailAndPassword(String name, String password);
 }
