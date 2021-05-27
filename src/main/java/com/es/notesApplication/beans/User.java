@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,9 +33,16 @@ public class User {
 	@GeneratedValue
 	private int id;
 	
+	@Column(unique = true)
+	@Email(message = "Email is invalid")
+	@NotBlank(message = "Email is mandatory")
 	private String email;
+	
+	@NotBlank(message = "Name is mandatory")
 	private String name;
 	
+	@NotBlank(message = "Password is mandatory")
+	@Size(min = 8, max = 20, message = "Password should be between 8 - 20 Characters")
 	private String password;
 	
 	@OneToMany(
